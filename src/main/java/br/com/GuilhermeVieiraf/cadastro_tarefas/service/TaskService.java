@@ -16,12 +16,15 @@ public class TaskService {
     @Autowired
     private TaskRepository repository;
 
-    public Task create(TaskDTO dto) {
+    public TaskDTO create(TaskDTO dto) {
         Task task = new Task();
         task.setTitle(dto.title());
         task.setDescription(dto.description());
         task.setExpirationDate(dto.expirationDate());
-        return repository.save(task);
+
+        Task saved = repository.save(task);
+
+        return new TaskDTO(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getExpirationDate());
     }
 
     public List<TaskDTO> findAll() {
